@@ -5,13 +5,17 @@ import com.betrybe.agrix.ebytr.staff.exception.PersonNotFoundException;
 import com.betrybe.agrix.ebytr.staff.repository.PersonRepository;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 /**
- * Service layer class for handling persons business logic.
+ * Person Service.
  */
 @Service
-public class PersonService {
+public class PersonService implements UserDetailsService {
 
   private final PersonRepository personRepository;
 
@@ -35,22 +39,29 @@ public class PersonService {
   }
 
   /**
-   * Returns a person for a given username.
+   * Insere uma nova pessoa no banco de dados.
+   *
+   * @param person A pessoa a ser inserida.
+   * @return A pessoa inserida.
    */
-  public Person getPersonByUsername(String username) {
-    Optional<Person> person = personRepository.findByUsername(username);
+  public Person insert(Person person) {
+    String hashedPassword = new BCryptPasswordEncoder().encode(person.getPassword());
+    person.setPassword(hashedPassword);
 
-    if (person.isEmpty()) {
-      throw new PersonNotFoundException();
-    }
-
-    return person.get();
+    return personRepository.save(person);
   }
 
   /**
-   * Creates a new person.
+   * Carrega os detalhes de um usuário com o nome de usuário fornecido.
+   *
+   * @param username O nome de usuário do usuário a ser carregado.
+   * @return Os detalhes do usuário carregado.
+   * @throws UsernameNotFoundException Se o usuário com o nome de usuário fornecido não for
+   *                                   encontrado.
    */
-  public Person create(Person person) {
-    return personRepository.save(person);
+  @Override
+  public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    return personRepository.findByUsername(username);
   }
+
 }

@@ -38,7 +38,7 @@ public class PersonController {
     person.setPassword(personData.getPassword());
     person.setRole(personData.getRole());
 
-    Person createdPerson = personService.create(person);
+    Person createdPerson = personService.insert(person);
 
     PersonDto responseDto = new PersonDto();
     responseDto.setId(createdPerson.getId());
