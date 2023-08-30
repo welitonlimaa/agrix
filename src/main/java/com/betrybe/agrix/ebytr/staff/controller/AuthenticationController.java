@@ -50,26 +50,6 @@ public class AuthenticationController {
   }
 
   /**
-   * Endpoint para registro de um novo usuário.
-   *
-   * @param person Os dados do usuário a ser registrado.
-   * @return Uma resposta com status e mensagem.
-   */
-  @PostMapping("/register")
-  public ResponseEntity<ResponseDto> register(@RequestBody Person person) {
-    UserDetails userDetails = personService.loadUserByUsername(person.getUsername());
-    if (userDetails != null) {
-      ResponseDto response = new ResponseDto(null,
-          "Não foi possível cadastrar, nome de usuário já existe!");
-      return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
-    }
-
-    Person createdUser = personService.insert(person);
-    ResponseDto response = new ResponseDto(createdUser);
-    return ResponseEntity.status(HttpStatus.CREATED).body(response);
-  }
-
-  /**
    * Endpoint para autenticação de um usuário.
    *
    * @param authenticationDto Os dados de autenticação (username e password) do usuário.
