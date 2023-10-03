@@ -10,7 +10,7 @@
     <relativePath/> <!-- lookup parent from repository -->
   </parent>
 
-  <groupId>com.betrybe</groupId>
+  <groupId>com.agrix</groupId>
   <artifactId>agrix</artifactId>
   <version>1.0-SNAPSHOT</version>
   <name>agrix</name>
@@ -185,7 +185,7 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
         <configuration>
-          <mainClass>com.betrybe.agrix.AgrixApplication</mainClass>
+          <mainClass>com.agrix.AgrixApplication</mainClass>
           <layout>JAR</layout>
         </configuration>
       </plugin>
